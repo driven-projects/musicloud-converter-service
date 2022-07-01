@@ -1,11 +1,13 @@
 import MetadataExtractor from "@/adapters/MetadataExtractor";
-import FileConverter from "./adapters/FileConverter";
+import FileConverter from "@/adapters/FileConverter";
+
+import SongConverter from "@/domain/SongConverter";
 
 const converter = new FileConverter();
 const extractor = new MetadataExtractor();
+const songConverter = new SongConverter(extractor, converter);
 
 (async () => {
-  await converter.convertToMp3("./Mechanix.wav", "./Mechanix 3.mp3");
-  const metadata = await extractor.parse("./Mechanix 3.mp3");
-  console.log(metadata);
+  const info = await songConverter.convert("./08. Mechanix.mp3");
+  console.log(info);
 })();

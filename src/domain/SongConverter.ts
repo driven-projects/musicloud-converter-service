@@ -12,7 +12,10 @@ export default class SongConverter implements ISongConverter {
   }
 
   async convert(inputFile: string) {
-    const outputFile = new Date().toISOString();
+    const now = new Date().toISOString();
+    const parts = inputFile.split("/");
+
+    const outputFile = `${now}-${parts[parts.length - 1]}`;
     await this.#fileConverter.convertToMp3(inputFile, outputFile);
 
     const metadata = await this.#metadataExtractor.parse(outputFile);

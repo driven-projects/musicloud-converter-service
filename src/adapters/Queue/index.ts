@@ -7,7 +7,6 @@ export default class Queue implements IQueue {
 
   constructor(queueName: string) {
     this.#queueName = queueName;
-    this.#init();
   }
 
   async publish(data: string) {
@@ -19,12 +18,10 @@ export default class Queue implements IQueue {
     const channel = await this.#createChannel();
     channel.consume(this.#queueName, (data) => {
       callback(data.content.toString());
-      this.subscribe(callback);
-      channel.close();
     }, { noAck: true });
   }
 
-  async #init() {
+  async init() {
     this.#createQueue();
   }
 
@@ -36,6 +33,6 @@ export default class Queue implements IQueue {
 
   async #createQueue() {
     const channel = await this.#createChannel();
-    channel.assertQueue(this.#queueName, { durable: true });
+    await channel.assertQueue(this.#queueName, { durable: true });
   }
 }

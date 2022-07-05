@@ -1,6 +1,6 @@
 import { IMetadata } from "@/protocols/IMetadataExtractor";
 
-interface IConvertedSong extends IMetadata {
+export interface IConvertedSong extends IMetadata {
   filepath: string;
 }
 

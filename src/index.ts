@@ -1,4 +1,4 @@
-import "./setup";
+import "@/setup";
 
 import MetadataExtractor from "@/adapters/MetadataExtractor";
 import FileConverter from "@/adapters/FileConverter";

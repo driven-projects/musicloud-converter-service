@@ -22,7 +22,7 @@ export default class Queue implements IQueue {
   }
 
   async init() {
-    this.#createQueue();
+    await this.#createQueue();
   }
 
   async #createChannel() {

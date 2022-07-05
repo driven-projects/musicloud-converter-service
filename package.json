@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/dotenv": "^8.2.0",
     "@types/fluent-ffmpeg": "^2.1.20",
     "@types/node": "^18.0.0",
     "nodemon": "^2.0.18",
@@ -20,6 +21,8 @@
     "typescript-transform-paths": "^3.3.1"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.121.0",
+    "dotenv": "^16.0.1",
     "fluent-ffmpeg": "^2.1.2",
     "music-metadata": "^7.12.3"
   }

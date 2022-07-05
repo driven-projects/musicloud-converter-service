@@ -2,7 +2,7 @@ import fs from "fs/promises";
 
 import ISongConverter, { IConvertedSong } from "@/protocols/ISongConverter";
 import IBucket from "@/protocols/IBucket";
-import IProcessSongUseCase, { IProcessedSong } from "@/protocols/IProcessSongUseCase";
+import IProcessSongUseCase from "@/protocols/IProcessSongUseCase";
 
 export default class ProcessSongUseCase implements IProcessSongUseCase {
   #songConverter: ISongConverter;

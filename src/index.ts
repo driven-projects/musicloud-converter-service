@@ -3,21 +3,30 @@ import "@/setup";
 import MetadataExtractor from "@/adapters/MetadataExtractor";
 import FileConverter from "@/adapters/FileConverter";
 import BucketProvider from "@/adapters/BucketProvider";
+import Queue from "@/adapters/Queue";
 
 import SongConverter from "@/domain/SongConverter";
 import Bucket from "@/domain/Bucket";
+import ConversionQueue from "@/domain/ConversionQueue";
 
 import ProcessSongUseCase from "@/usecases/ProcessSongUseCase";
 
 class ConverterService {
-  #processSongUseCase: ProcessSongUseCase
+  #processSongUseCase: ProcessSongUseCase;
 
   constructor() {
     this.#processSongUseCase = this.#buildProcessSongUseCase();
   }
 
   async run() {
-    await this.#processSongUseCase.execute("Mechanix.wav");
+    const process = (key: string) => this.#processSongUseCase.execute(key);
+    const songUploadQueue = new Queue("song-upload");
+    const conversionQueue = new Queue("song-converted");
+    await new ConversionQueue(
+      songUploadQueue,
+      conversionQueue,
+      process
+    ).run();
   }
 
   #buildProcessSongUseCase() {

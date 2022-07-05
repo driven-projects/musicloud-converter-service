@@ -1,3 +1,5 @@
+import fs from "fs/promises";
+
 import IMetadataExtractor from "@/protocols/IMetadataExtractor";
 import IFileConverter from "@/protocols/IFileConverter";
 import ISongConverter from "@/protocols/ISongConverter";
@@ -12,10 +14,12 @@ export default class SongConverter implements ISongConverter {
   }
 
   async convert(inputFile: string) {
+    await this.#createConversionsDirIfDoesntExist();
+
     const now = new Date().toISOString();
     const parts = inputFile.split("/");
 
-    const outputFile = `${now}-${parts[parts.length - 1]}`;
+    const outputFile = `./conversions/${now}-${parts[parts.length - 1]}`;
     await this.#fileConverter.convertToMp3(inputFile, outputFile);
 
     const metadata = await this.#metadataExtractor.parse(outputFile);
@@ -24,5 +28,13 @@ export default class SongConverter implements ISongConverter {
       filepath: outputFile,
       ...metadata
     };
+  }
+
+  async #createConversionsDirIfDoesntExist() {
+    try {
+      await fs.access("./conversions");
+    } catch {
+      await fs.mkdir("./conversions");
+    }
   }
 }
